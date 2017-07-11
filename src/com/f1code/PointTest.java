@@ -17,5 +17,11 @@ public class PointTest {
 
         System.out.println(pfloat.getX() + "==" + pfloat.getY());
 
+
+
+        MorePoint<Integer,String> morePoint = new MorePoint<Integer, String>();
+        morePoint.setName("harvic");
+        System.out.println("morPont.getName:" + morePoint.getName());
+
     }
 }
