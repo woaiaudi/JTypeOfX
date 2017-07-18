@@ -82,3 +82,93 @@ public class GenericsDemo24{
     }
 };
 ```
+
+##### 使用方法二：泛型类
+> 使用泛型类来继承泛型接口的作用就是让用户来定义接口所使用的变量类型，而不是像方法一那样，在类中写死。
+
+```
+class InfoImpl<T> implements Info<T>{   // 定义泛型接口的子类
+    private T var ;             // 定义属性
+    public InfoImpl(T var){     // 通过构造方法设置属性内容
+        this.setVar(var) ;
+    }
+    public void setVar(T var){
+        this.var = var ;
+    }
+    public T getVar(){
+        return this.var ;
+    }
+}
+//在这个类中，我们构造了一个泛型类InfoImpl<T>，然后把泛型变量T传给了Info<T>
+//这说明接口和泛型类使用的都是同一个泛型变量。
+
+
+
+//然后在使用时，就是构造一个泛型类的实例的过程，使用过程也不变。
+ public static void main(String arsg[]){
+        InfoImpl<String> i = new InfoImpl<String>("harvic");
+        System.out.println(i.getVar()) ;
+    }
+```
+
+##### 使用方法二：泛型类 扩展》多个泛型变量的类
+```
+class InfoImpl<T,K,U> implements Info<U>{   // 定义泛型接口的子类
+     private U var ;
+     private T x;
+     private K y;
+     public InfoImpl(U var){        // 通过构造方法设置属性内容
+         this.setVar(var) ;
+     }
+     public void setVar(U var){
+         this.var = var ;
+     }
+     public U getVar(){
+         return this.var ;
+     }
+ }
+```
+
+```
+public  void main(String arsg[]){
+        InfoImpl<Integer,Double,String> i = new InfoImpl<Integer,Double,String>("harvic");
+        System.out.println(i.getVar()) ;
+    }
+```
+
+##### 单独在一个函数里使用泛型
+```
+public class StaticFans {
+    //静态函数
+    public static  <T> void StaticMethod(T a){
+        Log.d("harvic","StaticMethod: "+a.toString());
+    }
+    //普通函数
+    public  <T> void OtherMethod(T a){
+        Log.d("harvic","OtherMethod: "+a.toString());
+    }
+}
+
+//使用时
+//静态方法
+StaticFans.StaticMethod("adfdsa");//使用方法一
+StaticFans.<String>StaticMethod("adfdsa");//使用方法二
+
+//常规方法
+StaticFans staticFans = new StaticFans();
+staticFans.OtherMethod(new Integer(123));//使用方法一
+staticFans.<Integer>OtherMethod(new Integer(123));//使用方法二
+
+//函数会在内部根据传进去的参数来识别当前T的类别。
+//但尽量不要使用这种隐式的传递方式，代码不利于阅读和维护。
+//因为从外观根本看不出来你调用的是一个泛型函数。
+//建议使用：方法二
+```
+
+##### 单独在一个函数里使用泛型 -- 返回值中存在泛型
+```
+public static <T> List<T> parseArray(String response,Class<T> object){
+    List<T> modelList = JSON.parseArray(response, object);
+    return modelList;
+}
+```
